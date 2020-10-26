@@ -1,9 +1,10 @@
 package com.globic.globics.di.modules
 
 import android.app.Application
-import com.globic.globics.BuildConfig
-import com.globic.globics.network.interceptor.NetworkInterceptor
+import androidx.viewbinding.BuildConfig
+import com.globic.globics.network.api.ApiService
 import com.globic.globics.network.interceptor.HeaderInterceptor
+import com.globic.globics.network.interceptor.NetworkInterceptor
 import com.globic.globics.network.monitor.INetworkMonitor
 import com.globic.globics.network.monitor.NetworkMonitor
 import com.google.gson.Gson
@@ -13,6 +14,9 @@ import dagger.Provides
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -22,7 +26,7 @@ class ApiModules {
 
     @Provides
     @Singleton
-    fun provideGson(): Gson? {
+    fun provideGson(): Gson {
         val gsonBuilder = GsonBuilder()
         return gsonBuilder.create()
     }
@@ -33,6 +37,19 @@ class ApiModules {
         val cacheSize = (10 * 1024 * 1024).toLong() // 10 MB
         val httpCacheDirectory = File(application.cacheDir, "http-cache")
         return Cache(httpCacheDirectory, cacheSize)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNetworkInterceptor(application: Application, networkMonitor: INetworkMonitor
+    ): NetworkInterceptor {
+        return NetworkInterceptor(application.applicationContext, networkMonitor)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNetworkMonitor(application: Application): INetworkMonitor {
+        return NetworkMonitor(application.applicationContext)
     }
 
     @Provides
@@ -53,4 +70,20 @@ class ApiModules {
         return builder.build()
     }
 
+    @Provides
+    @Singleton
+    fun provideRetrofit(baseUrl: String, gson: Gson, okHttpClient: OkHttpClient): Retrofit? {
+        return Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .client(okHttpClient)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideApiService(retrofit: Retrofit): ApiService {
+        return retrofit.create(ApiService::class.java)
+    }
 }

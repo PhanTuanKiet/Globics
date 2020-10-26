@@ -1,4 +1,4 @@
-package com.globic.globics.view_models
+package com.globic.globics.mvvm.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

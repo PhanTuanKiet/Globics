@@ -1,12 +1,9 @@
 package com.globic.globics.di.modules
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.globic.globics.view_models.ViewModelFactory
-import com.globic.globics.view_models.ViewModelKey
+import com.globic.globics.mvvm.viewModels.ViewModelFactory
 import dagger.Binds
 import dagger.Module
-import dagger.multibindings.IntoMap
 
 @Module
 abstract class ViewModelModules {

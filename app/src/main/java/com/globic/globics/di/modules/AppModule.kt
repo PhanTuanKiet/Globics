@@ -2,9 +2,10 @@ package com.globic.globics.di.modules
 
 import android.app.Application
 import android.content.Context
-import com.globic.globics.network.interceptor.NetworkInterceptor
+import android.content.SharedPreferences
 import com.globic.globics.network.monitor.INetworkMonitor
 import com.globic.globics.network.monitor.NetworkMonitor
+import com.globic.globics.utils.Constants
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -19,15 +20,15 @@ abstract class AppModule {
     companion object {
         @Provides
         @Singleton
-        open fun provideNetworkInterceptor(application: Application, networkMonitor: INetworkMonitor
-        ): NetworkInterceptor {
-            return NetworkInterceptor(application.applicationContext, networkMonitor)
+        fun provideNetworkMonitor(application: Application): INetworkMonitor {
+            return NetworkMonitor(application.applicationContext)
         }
 
         @Provides
         @Singleton
-        open fun provideNetworkMonitor(application: Application): INetworkMonitor {
-            return NetworkMonitor(application.applicationContext)
+        fun provideSharePreference(context: Context): SharedPreferences {
+            return context.getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE
+            )
         }
     }
 }

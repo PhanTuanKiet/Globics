@@ -1,4 +1,4 @@
-package com.globic.globics.view
+package com.globic.globics.mvvm.views
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

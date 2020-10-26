@@ -1,6 +1,6 @@
 package com.globic.globics.di.modules
 
-import com.globic.globics.view.MainActivity
+import com.globic.globics.mvvm.views.MainActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
