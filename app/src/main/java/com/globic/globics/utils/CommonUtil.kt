@@ -10,7 +10,7 @@ class CommonUtil {
         val ISO8601_DATE_TIME_FORMAT_STRING = "yyyy-MM-dd'T'HH:mm:ss.000'Z'"
     }
 
-    fun isValidEmail(email: CharSequence?): Boolean {
+    fun isValidEmail(email: CharSequence): Boolean {
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 

@@ -14,6 +14,6 @@ abstract class ViewModelModules {
 //    @Binds
 //    @IntoMap
 //    @ViewModelKey(LoginViewModel::class)
-//    abstract fun movieListViewModel(moviesListViewModel: LoginViewModel): ViewModel
+//    abstract fun LoginViewModel(LoginViewModel: LoginViewModel): ViewModel
 
 }

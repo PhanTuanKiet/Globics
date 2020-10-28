@@ -3,7 +3,8 @@ package com.globic.globics.di.modules
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import com.globic.globics.network.monitor.INetworkMonitor
+import com.globic.globics.mvvm.repositories.LoginRepository
+import com.globic.globics.network.api.ApiService
 import com.globic.globics.network.monitor.NetworkMonitor
 import com.globic.globics.utils.Constants
 import dagger.Binds
@@ -20,15 +21,21 @@ abstract class AppModule {
     companion object {
         @Provides
         @Singleton
-        fun provideNetworkMonitor(application: Application): INetworkMonitor {
+        fun provideNetworkMonitor(application: Application): NetworkMonitor {
             return NetworkMonitor(application.applicationContext)
         }
 
         @Provides
         @Singleton
         fun provideSharePreference(context: Context): SharedPreferences {
-            return context.getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE
+            return context.getSharedPreferences(
+                Constants.PREFERENCES, Context.MODE_PRIVATE
             )
+        }
+
+        @Provides
+        fun provideLoginRepository(apiService: ApiService): LoginRepository {
+            return LoginRepository(apiService)
         }
     }
 }
